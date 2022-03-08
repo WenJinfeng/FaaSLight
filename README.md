@@ -20,16 +20,11 @@ intergrationFunMain.py is the approach overview of LambdaLite.
     Identify_name,moshu_file = magic_func()
     print("step3 end")
 
-    time_tmp = time.time()
-
     # Step4: Constructing call graph 
     print("step4 start")
     re_FunRel = construct_graph()
     print("step4 end")
-
-    time_end = time.time()
-    print("Spending of step4:"+str(time_end-time_tmp))
-
+    
     # Step5: Initial useful function generation
     print("step5 start")
     used_fun_result_output = initial_func()
@@ -55,5 +50,3 @@ intergrationFunMain.py is the approach overview of LambdaLite.
     import_rewrite()
     print("step9 end")
 
-    time_tmp = time.time()
-    print("All spending:"+str(time_tmp-time_start))
