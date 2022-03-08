@@ -1,10 +1,11 @@
 # LambdaLite
 Application-level Performance Optimization for Serverless Computing
 
+We aim to optimize the cold start time from the application developers' perspective. Our appraoch is a vendor- and platform-independent technique that application developers can adopt.
 
-intergrationFunMain.py is the approach overview of LambdaLite
+intergrationFunMain.py is the approach overview of LambdaLite.
 
-   # Step1: Preprocessing
+    # Step1: Preprocessing
     print("step1 start")
     prepare()
     print("step1 end")
