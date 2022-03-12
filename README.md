@@ -24,7 +24,7 @@ integrationFunMain.py is the approach overview of LambdaLite.
     print("step4 start")
     re_FunRel = construct_graph()
     print("step4 end")
-    
+
     # Step5: Initial useful function generation
     print("step5 start")
     used_fun_result_output = initial_func()
@@ -32,21 +32,11 @@ integrationFunMain.py is the approach overview of LambdaLite.
 
     # Step6: Special rule query
     print("step6 start")
-    used_package_name,moshu_file_final = special_rule()
+    used_package_name,moshu_file_final,used_fun_result_output_final = special_rule()
     print("step6 end")
 
-    # Step7: Final useful function generation
+    # Step7: Function-level rewriting
     print("step7 start")
-    used_fun_result_output_final = final_rule()
-    print("step7 end")
-
-    # Step8: Function-level rewriting
-    print("step8 start")
     used_fun_result_output_final_re,buits_list_file = func_rewrite()
-    print("step8 end")
-
-    # Step9: Import-level rewriting
-    print("step9 start")
-    import_rewrite()
-    print("step9 end")
+    print("step7 end")
 
