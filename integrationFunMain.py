@@ -1,9 +1,6 @@
 
 import os
 import json
-
-import sys
-sys.setrecursionlimit(5000000)
 import shutil
 
 import time
@@ -103,7 +100,7 @@ def special_rule():
     moshu_file_update = "moshu_functions/{}_update.txt".format(Identify_name)
     os.system("python3 find_magic.py --dirname {} --path {} --packageset {} --moshuoutput {}".format(dir_name, input_package, used_package_name, moshu_file_update))
 
-    # optinal: start - pre-loaded function generation
+    # optinal: start - pre-loaded function generation for any package
 
     # input_package_dynamic_copy = "{}-dynamic".format(input_package)
     # shutil.copytree(input_package,input_package_dynamic_copy)
@@ -165,12 +162,10 @@ def special_rule():
     import processUtil
     processUtil.moshu_update(moshu_file_update, special_key, moshu_file_final)
 
-    return used_package_name,moshu_file_final
+    # generate the final useful function set (used_fun_result_output_final.txt)
+    global seedfun_list,re_FunRel,input_entry_point
 
-def final_rule():
-    global Identify_name,seedfun_list,input_package,re_FunRel,input_entry_point,moshu_file_final
-
-    import processUtil
+    
     used_fun_result_output_update = "used_func_result/used_func_{}_update.txt".format(Identify_name)
     processUtil.getDynamicContent(seedfun_list, input_package, re_FunRel, input_entry_point, moshu_file_final, used_fun_result_output_update)
     used_fun_result_output_final = "used_func_result/used_func_{}_final.txt".format(Identify_name)
@@ -179,7 +174,9 @@ def final_rule():
     special_key_append = []
     processUtil.result_process(input_package, used_fun_result_output_update,used_fun_result_output_final, special_key_append)
 
-    return used_fun_result_output_final
+    
+    return used_package_name,moshu_file_final,used_fun_result_output_final
+
 
 def func_rewrite():
     global Identify_name,used_fun_result_output_final,used_package_name
@@ -203,25 +200,6 @@ def func_rewrite():
     
     return used_fun_result_output_final_re,buits_list_file
 
-def import_rewrite():
-    global used_fun_result_output_final_re, buits_list_file
-
-    input_package_copy = input_package
-
-    import removefile
-    removefile.delFiles(input_package_copy, assetsDir)
-
-    module_name = "module_file/module_name_{}.txt".format(Identify_name)
-
-    import utiltool
-    utiltool.get_module(input_package_copy, module_name)
-
-    os.system("python3 Import_rewriting.py --dirname {} --path {} --usedfuntionlist {} --builtlist {} --module_name {}".format(dir_name, input_package_copy, used_fun_result_output_final_re, buits_list_file, module_name))
-
-    shutil.copytree("lazy_import","{}/lazy_import".format(input_package_copy))
-    shutil.copy("six.py", "{}/six.py".format(input_package_copy))
-
-
 if __name__ == "__main__": 
     
     # Step1: Preprocessing
@@ -239,15 +217,13 @@ if __name__ == "__main__":
     Identify_name,moshu_file = magic_func()
     print("step3 end")
 
-    time_tmp = time.time()
+    
 
     # Step4: Constructing call graph 
     print("step4 start")
     re_FunRel = construct_graph()
     print("step4 end")
 
-    time_end = time.time()
-    print("Spending of step4:"+str(time_end-time_tmp))
 
     # Step5: Initial useful function generation
     print("step5 start")
@@ -256,23 +232,11 @@ if __name__ == "__main__":
 
     # Step6: Special rule query
     print("step6 start")
-    used_package_name,moshu_file_final = special_rule()
+    used_package_name,moshu_file_final,used_fun_result_output_final = special_rule()
     print("step6 end")
-
-    # Step7: Final useful function generation
-    print("step7 start")
-    used_fun_result_output_final = final_rule()
-    print("step7 end")
 
     # Step8: Function-level rewriting
     print("step8 start")
     used_fun_result_output_final_re,buits_list_file = func_rewrite()
     print("step8 end")
 
-    # Step9: Import-level rewriting
-    print("step9 start")
-    import_rewrite()
-    print("step9 end")
-
-    time_tmp = time.time()
-    print("All spending:"+str(time_tmp-time_start))
