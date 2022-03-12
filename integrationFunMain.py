@@ -217,13 +217,10 @@ if __name__ == "__main__":
     Identify_name,moshu_file = magic_func()
     print("step3 end")
 
-    
-
     # Step4: Constructing call graph 
     print("step4 start")
     re_FunRel = construct_graph()
     print("step4 end")
-
 
     # Step5: Initial useful function generation
     print("step5 start")
@@ -235,8 +232,8 @@ if __name__ == "__main__":
     used_package_name,moshu_file_final,used_fun_result_output_final = special_rule()
     print("step6 end")
 
-    # Step8: Function-level rewriting
-    print("step8 start")
+    # Step7: Function-level rewriting
+    print("step7 start")
     used_fun_result_output_final_re,buits_list_file = func_rewrite()
-    print("step8 end")
+    print("step7 end")
 
