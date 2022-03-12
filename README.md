@@ -1,5 +1,5 @@
 # LambdaLite
-Application-level Performance Optimization for Serverless Computing
+Application-Level Performance Optimization for Serverless Computing
 
 We aim to optimize the cold start time from the application developers' perspective. Our appraoch is a vendor- and platform-independent technique that application developers can adopt.
 
