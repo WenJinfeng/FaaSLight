@@ -222,7 +222,7 @@ if __name__ == "__main__":
     re_FunRel = construct_graph()
     print("step4 end")
 
-    # Step5: Initial useful function generation
+    # Step5: Initial indispensable function generation
     print("step5 start")
     used_fun_result_output = initial_func()
     print("step5 end")
