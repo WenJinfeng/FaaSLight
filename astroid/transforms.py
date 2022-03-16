@@ -48,7 +48,7 @@ class TransformVisitor:
                     contextmod._invalidate_cache()
                     node = ret
                 
-                # wjf：modify this, loose the decoration condition.
+                # modify this, loose the decoration condition.
                 # if ret.__class__ != cls:
                 #     # Can no longer apply the rest of the transforms.
                 #     break
