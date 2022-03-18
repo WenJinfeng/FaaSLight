@@ -5,6 +5,7 @@ We aim to tackle this problem at the application level. Our guiding principle is
 
 integrationFunMain.py is the approach overview of LambdaLite.
 
+```Python
 
     # Step1: Preprocessing
     print("step1 start")
