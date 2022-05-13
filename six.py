@@ -247,7 +247,6 @@ class _MovedItems(_LazyModule):
     """Lazy loading of moved objects"""
     __path__ = []  # mark as package
 
-
 _moved_attributes = [
     MovedAttribute("cStringIO", "cStringIO", "io", "StringIO"),
     MovedAttribute("filter", "itertools", "builtins", "ifilter", "filter"),
