@@ -124,7 +124,7 @@ def special_rule():
 
 
 
-    # whitelist
+    # whitelist customization
     special_key=["requests.utils.set_environ", 
     "requests.sessions.Session.request", 
     "requests.adapters.HTTPAdapter.send", 
