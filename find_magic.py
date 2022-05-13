@@ -75,6 +75,7 @@ if __name__ == "__main__":
         line = line.strip('\n')
         if len(line)>0:
             dirset.append(line)
+            
 
     astroid.MANAGER.register_transform( astroid.nodes.FunctionDef, function_transform )
 
