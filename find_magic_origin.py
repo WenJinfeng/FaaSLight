@@ -76,6 +76,7 @@ if __name__ == "__main__":
 
     moshu_output = open(moshu_file, 'w', encoding='utf-8')
 
+    
     for i in moshu_save:
         moshu_output.write(i)
         moshu_output.write("\n")
