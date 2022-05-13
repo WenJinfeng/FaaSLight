@@ -42,3 +42,8 @@ integrationFunMain.py is the approach overview of LambdaLite.
     used_fun_result_output_final_re,buits_list_file = func_rewrite()
     print("step7 end")
 
+
+
+After the serverless application is processed by the above LambdaLite, it can run on AWS Lambda again.
+
+The script to invoke the serverless application and ontain the performance result is in InvokeScript/invokeFunctionScript.py.
