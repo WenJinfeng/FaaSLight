@@ -22,6 +22,7 @@ def rewrite_template(unused_file_name, funname, local_list, returnnum):
     LOC = '{}\n'.format(LOC) + return_string + '{}'.format(funname)
     exec(LOC, local_list, globals())
     
+    
     if returnnum == 1:
             return globals()['return0']
     return tuple( [globals()['return{}'.format(i)] for i in range( returnnum ) ])
