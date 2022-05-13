@@ -13,7 +13,6 @@ def sortresult(fileinput,input_package, fileoutput):
         if not i in T:
             T.append(i)
 
-
     T_new = []
     #result after deduplication
     for line in T:
