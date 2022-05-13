@@ -43,7 +43,7 @@ integrationFunMain.py is the approach overview of LambdaLite.
     print("step7 end")
 ```
 
-After the serverless application is processed by the above LambdaLite, it can run on AWS Lambda again.
+After the serverless application is processed by the above LambdaLite, it can be run on AWS Lambda again.
 
-The script to invoke the serverless application and ontain the performance result is in InvokeScript/invokeFunctionScript.py.
+The script to invoke the serverless application and obtain the performance result is in InvokeScript/invokeFunctionScript.py.
 
