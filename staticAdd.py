@@ -4,7 +4,6 @@ import os
 import ast
 from typing import DefaultDict
 
-
 def read_context(fileinput):
     with open(fileinput,'r') as load_f:
         load_dict = json.load(load_f)
