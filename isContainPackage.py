@@ -31,6 +31,5 @@ def getPackgaeName(used_fun_result_output, input_package, output_file):
 
 
 
-
 if __name__ == '__main__':
     pass
