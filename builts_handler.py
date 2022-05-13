@@ -30,3 +30,4 @@ if __name__ == "__main__":
     find_file = 'builtins.py'
     tree_node = get_ast(find_file)
     get_builtlist(tree_node)
+    
