@@ -17,6 +17,5 @@ def delFiles(dirpath, assetsDir):
                     print ("Delete File: " + os.path.join(root, name))
                     continue
 
-
 if __name__ == "__main__":
     pass
