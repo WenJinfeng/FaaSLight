@@ -1,5 +1,4 @@
 
-
 import yaml
 
 def foryml(ymlPath):
