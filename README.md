@@ -5,7 +5,7 @@ We aim to tackle this problem at the application level. Our guiding principle is
 
 integrationFunMain.py is the approach overview of LambdaLite.
 
-```Python
+```Python{
 
     # Step1: Preprocessing
     print("step1 start")
@@ -41,9 +41,9 @@ integrationFunMain.py is the approach overview of LambdaLite.
     print("step7 start")
     used_fun_result_output_final_re,buits_list_file = func_rewrite()
     print("step7 end")
-
-
+}
 
 After the serverless application is processed by the above LambdaLite, it can run on AWS Lambda again.
 
 The script to invoke the serverless application and ontain the performance result is in InvokeScript/invokeFunctionScript.py.
+
