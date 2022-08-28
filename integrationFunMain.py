@@ -16,7 +16,7 @@ assetsDir = {
     # ignore
     "ignorDir" : ["__pycache__", "tests", ".serverless", "pip", "pkg_resources", "setuptools", "wheel", "_distutils_hack"], 
 
-    "ignorSpeDir": [".dist-info"],  
+    "ignorSpeDir": [],  
     
     "ignorFile": [".pyc", ".pyi", ".pth", ".virtualenv","_virtualenv.py",".md"],
 }
