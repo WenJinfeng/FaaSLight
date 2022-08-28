@@ -44,7 +44,13 @@ def function_transform(node: astroid.FunctionDef):
     if node.name in moshu_func:
         if not ".".join(parent_func) in moshu_save:
             moshu_save.append(".".join(parent_func))
-
+    
+    
+    if (node.args.args) and len(node.args.args) == 1:
+        if (node.args.args[0].name == 'request'):
+            slsfunction.append(".".join(parent_func))
+            
+    
     if (node.args.args) and (len(node.args.args) == 2):
         if (node.args.args[0].__class__ == astroid.AssignName) and (node.args.args[1].__class__ == astroid.AssignName):
             if (node.args.args[0].name == 'event') and (node.args.args[1].name == 'context'):
