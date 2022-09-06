@@ -3,7 +3,9 @@ Function-Level Optimization for Cold Start Latency in Serverless Computing
 
 We aim to tackle this problem at the serverless function level. Our guiding principle is to provide a vendor/platform-independent and developer-free technique that developers can easily adopt to optimize the cold start latency of serverless functions on existing platforms. 
 
-<img width="605" alt="image" src="https://user-images.githubusercontent.com/79156929/168273305-a86da262-6316-4727-816f-a4ea6ed6e879.png">
+
+
+<img width="605" alt="image" src="https://user-images.githubusercontent.com/79156929/188566749-03132e98-15de-4e3d-8a9a-871cc9605e66.png">
 
 integrationFunMain.py is the approach overview of LambdaLite.
 
@@ -16,12 +18,12 @@ integrationFunMain.py is the approach overview of LambdaLite.
     prepare()
     print("step1 end")
 
-    # Step2: Serverless function
+    # Step2: Serverless function recognization
     print("step2 start")
     ymlFile,seedfun_list,entry_py,input_entry_point = serverless_func()
     print("step2 end")
 
-    # Step3: Magic function
+    # Step3: Special function recognization
     print("step3 start")
     Identify_name,moshu_file = magic_func()
     print("step3 end")
