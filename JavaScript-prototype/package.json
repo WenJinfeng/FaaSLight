@@ -1,0 +1,11 @@
+{
+    "name": "lambadalite_JSversion",
+    "description": "Parse JS into call graphs and rewrite JS",
+    "dependencies": {
+      "js-yaml ": "4.1.0",
+      "uglify-js":"3.17.0",
+      "ramda":"0.28.0",
+      "fs-extra":"10.1.0"
+      
+    }
+  }
