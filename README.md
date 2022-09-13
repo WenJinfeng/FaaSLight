@@ -51,7 +51,9 @@ integrationFunMain.py is the approach overview of LambdaLite.
 
 After the serverless function is processed by the above LambdaLite, it can be run on AWS Lambda again.
 
-The script to invoke the serverless function and obtain the performance result is in InvokeScript/invokeFunctionScript.py.
+The script to invoke the serverless function executed on AWS Lambda and obtain the performance result is in InvokeScript/invokeFunctionScript.py.
+
+The script to invoke the serverless function executed on Google Cloud Functions and obtain the performance result is in InvokeScript/invokeCoogleFunction.py
 
 In addition, we implement the JavaScript prototype of our approach in the directory JavaScript-prototype.
 
