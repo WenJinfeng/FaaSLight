@@ -1,7 +1,7 @@
 # LambdaLite
-Function-Level Optimization for Cold Start Latency in Serverless Computing
+Application-Level Optimization for Cold Start Latency in Serverless Computing
 
-We aim to tackle this problem at the serverless function level. Our guiding principle is to provide a vendor/platform-independent and developer-free technique that developers can easily adopt to optimize the cold start latency of serverless functions on existing platforms. 
+We aim to tackle this problem at the application level. Our guiding principle is to provide a vendor/platform-independent and developer-free technique that developers can easily adopt to optimize the cold start latency of serverless functions on existing platforms. 
 
 
 
