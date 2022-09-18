@@ -3,9 +3,7 @@ Application-Level Optimization for Cold Start Latency in Serverless Computing
 
 We aim to tackle this problem at the application level. Our guiding principle is to provide a vendor/platform-independent and developer-free technique that developers can easily adopt to optimize the cold start latency of serverless functions on existing platforms. 
 
-
-
-<img width="605" alt="image" src="https://user-images.githubusercontent.com/79156929/188566749-03132e98-15de-4e3d-8a9a-871cc9605e66.png">
+<img width="605" alt="image" src="https://user-images.githubusercontent.com/79156929/190913660-04f93abb-980b-4e15-93b2-733c636d9ae4.png">
 
 integrationFunMain.py is the approach overview of LambdaLite.
 
