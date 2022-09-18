@@ -21,12 +21,12 @@ assetsDir = {
     "ignorFile": [".pyc", ".pyi", ".pth", ".virtualenv","_virtualenv.py",".md"],
 }
 
-# 1
+
 def prepare():
     import removefile
     removefile.delFiles(input_package, assetsDir)
 
-# 2
+
 def serverless_func():
     entry_py = ["handler"]
     input_entry_point =[]
@@ -47,47 +47,6 @@ def magic_func():
     # Meanwhile, find serverless functions and save into entry_point.txt to service the component construct_graph()
     return Identify_name,moshu_file
 
-def construct_graph():
-    global seedfun_list,input_entry_point
-
-    re_FunRel = "{}/output-re.json".format(input_package)
-
-
-    if len(seedfun_list)<=0:
-        user_handler = []
-        if os.path.exists("entry_point.txt"):
-            for line in open("entry_point.txt"):
-                line = line.strip('\n')
-                if len(line)>0:
-                    user_handler.append(line)
-        if len(user_handler)>0:
-            seedfun_list.extend(user_handler)
-            for i in user_handler:
-                temp = i.split(".")
-                if len(temp)>1:
-                    new_seed = ".".join(temp[:-1])
-                    seedfun_list.append(new_seed)
-
-    if not os.path.exists(output_file):
-        os.mknod(output_file)
-        intial_key={}
-        for seed_i in seedfun_list:
-            intial_key[seed_i] = []
-        with open(output_file, "w", encoding='utf-8') as f:
-            f.write(json.dumps(intial_key))
-        f.close()
-
-    import staticAdd
-    staticAdd.add_info(input_package, output_file, input_entry_point, moshu_file, re_FunRel)
-
-    return re_FunRel
-
-def initial_func():
-    global Identify_name
-    used_fun_result_output = "used_func_result/used_func_{}.txt".format(Identify_name)
-    import processUtil
-    processUtil.getDynamicContent_new(seedfun_list, input_package, re_FunRel, input_entry_point, used_fun_result_output)
-    return used_fun_result_output
 
 def special_rule():
     global Identify_name,used_fun_result_output,input_package
@@ -178,6 +137,50 @@ def special_rule():
     return used_package_name,moshu_file_final,used_fun_result_output_final
 
 
+def construct_graph():
+    global seedfun_list,input_entry_point
+
+    re_FunRel = "{}/output-re.json".format(input_package)
+
+
+    if len(seedfun_list)<=0:
+        user_handler = []
+        if os.path.exists("entry_point.txt"):
+            for line in open("entry_point.txt"):
+                line = line.strip('\n')
+                if len(line)>0:
+                    user_handler.append(line)
+        if len(user_handler)>0:
+            seedfun_list.extend(user_handler)
+            for i in user_handler:
+                temp = i.split(".")
+                if len(temp)>1:
+                    new_seed = ".".join(temp[:-1])
+                    seedfun_list.append(new_seed)
+
+    if not os.path.exists(output_file):
+        os.mknod(output_file)
+        intial_key={}
+        for seed_i in seedfun_list:
+            intial_key[seed_i] = []
+        with open(output_file, "w", encoding='utf-8') as f:
+            f.write(json.dumps(intial_key))
+        f.close()
+
+    import staticAdd
+    staticAdd.add_info(input_package, output_file, input_entry_point, moshu_file, re_FunRel)
+
+    return re_FunRel
+
+def initial_func():
+    global Identify_name
+    used_fun_result_output = "used_func_result/used_func_{}.txt".format(Identify_name)
+    import processUtil
+    processUtil.getDynamicContent_new(seedfun_list, input_package, re_FunRel, input_entry_point, used_fun_result_output)
+    return used_fun_result_output
+
+
+
 def func_rewrite():
     global Identify_name,used_fun_result_output_final,used_package_name
 
@@ -202,38 +205,29 @@ def func_rewrite():
 
 if __name__ == "__main__": 
     
-    # Step1: Preprocessing
+    # Step1: Optional File Elimination
     print("step1 start")
     prepare()
     print("step1 end")
 
-    # Step2: Serverless function
+    # Step2: Serverless Function Recognition
     print("step2 start")
     ymlFile,seedfun_list,entry_py,input_entry_point = serverless_func()
     print("step2 end")
 
-    # Step3: Magic function
+    # Step3: Special Function Recognition
     print("step3 start")
     Identify_name,moshu_file = magic_func()
+    used_package_name,moshu_file_final,used_fun_result_output_final = special_rule()
     print("step3 end")
 
-    # Step4: Constructing call graph 
+    # Step4: Optional Function Generation 
     print("step4 start")
     re_FunRel = construct_graph()
+    used_fun_result_output = initial_func()
     print("step4 end")
 
-    # Step5: Initial indispensable function generation
+    # Step5: Function-level Rewriting
     print("step5 start")
-    used_fun_result_output = initial_func()
-    print("step5 end")
-
-    # Step6: Special rule query
-    print("step6 start")
-    used_package_name,moshu_file_final,used_fun_result_output_final = special_rule()
-    print("step6 end")
-
-    # Step7: Function-level rewriting
-    print("step7 start")
     used_fun_result_output_final_re,buits_list_file = func_rewrite()
-    print("step7 end")
-
+    print("step5 end")
