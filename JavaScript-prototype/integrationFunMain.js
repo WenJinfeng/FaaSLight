@@ -5,7 +5,7 @@ const input_package  = "AppX_path/"
 var app_name = "AppX";
 
 
-//Preprocessing
+//Step1: Preprocessing
 //-------------------------------------------
 
 const deleteFiles = require('./removeFile');
@@ -14,7 +14,8 @@ deleteFiles(input_package);
 
 
 
-// Serverless function 
+// Step2: Serverless function 
+// Step 3: (optional) Special functions processing
 //-------------------------------------------
 
 var seed_func = [];
@@ -27,7 +28,7 @@ console.log(seed_func);//[ 'handler.list', 'handler.show' ]
 
 
 
-//Constructing call graph 
+//Step4: Constructing call graph 
 //get call graph information to cgInfo.json
 //-------------------------------------------
 
@@ -38,7 +39,7 @@ iterationCG(input_package, app_name);
 
 
 
-// Initial indispensable function generation
+// Step5: Initial indispensable function generation
 //-------------------------------------------
 
 const getFunListfromSeed = require("./initialFun");
@@ -48,7 +49,7 @@ getFunListfromSeed(seed_func, input_package, app_name);
 
 
 
-// Special rule query, such as preload functions 
+// Step6: Special rule query, such as preload functions and whitelist customization
 //-------------------------------------------
 
 
@@ -82,11 +83,11 @@ exec(cmdStr, function(err,stout, stderr){
 console.log("complete")
 
 
-//whitelist customization
+//6.2 whitelist customization
 customWhiteFun = [];
 
 
-//Generate the final use functions related to the test code.
+//6.3 Generate the final use functions related to the test code.
 //connect initial result/+log/+customWhiteFun --- all used function
 //save used function into result/XX-final.txt
 const resultPro = require("./result_process");
@@ -95,7 +96,7 @@ resultPro(app_name, customWhiteFun);
 
 
 
-// Function-level rewriting
+// Step7: Function-level rewriting
 //-------------------------------------------
 
 const handlerJS = require('./funRewrite');
