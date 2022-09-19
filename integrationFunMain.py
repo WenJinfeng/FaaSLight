@@ -49,15 +49,13 @@ def magic_func():
 
 
 def special_rule():
-    global Identify_name,used_fun_result_output,input_package
+    global Identify_name,moshu_file, input_package
+    #write the used package in used_package_name
     used_package_name = "used_func_result/used_package_{}.txt".format(Identify_name)
 
-    import isContainPackage
-    isContainPackage.getPackgaeName(used_fun_result_output, input_package, used_package_name)
-
     # find magic functions related to used packages
-    moshu_file_update = "moshu_functions/{}_update.txt".format(Identify_name)
-    os.system("python3 find_magic.py --dirname {} --path {} --packageset {} --moshuoutput {}".format(dir_name, input_package, used_package_name, moshu_file_update))
+    moshu_file_final = "moshu_functions/{}_final.txt".format(Identify_name)
+    os.system("python3 find_magic.py --dirname {} --path {} --packageset {} --moshuoutput {}".format(dir_name, input_package, used_package_name, moshu_file_final))
 
     # optinal: start - pre-loaded function generation for any package
 
@@ -82,59 +80,28 @@ def special_rule():
     # optinal:  end - pre-loaded function generation
 
 
-
-    # whitelist customization
-    special_key=["requests.utils.set_environ", 
-    "requests.sessions.Session.request", 
-    "requests.adapters.HTTPAdapter.send", 
-    "urllib3.connectionpool.connection_from_url",
-    "numpy.linalg.lapack_lite", 
-    "numpy.lib._iotools.NameValidator",
-    "numpy.lib._iotools._decode_line",
-    "numpy.lib._iotools.easy_dtype",
-    "numpy.lib.npyio.loadtxt",
-    "numpy.lib.npyio.loadtxt.flatten_dtype_internal",
-    "numpy.lib.npyio.loadtxt.read_data",
-    "numpy.lib.npyio.loadtxt.pack_items",
-    "numpy.lib.npyio.loadtxt.split_line",
-    "mpl_toolkits.axes_grid1.parasite_axes.host_axes_class_factory",
-    "sklearn.ensemble._forest._parallel_build_trees",
-    "pandas.io.parsers._read",
-    "pandas.io.excel._xlwt._XlwtWriter",
-    "pandas.io.excel._xlsxwriter._XlsxWriter",
-    "pandas.io.excel._openpyxl._OpenpyxlWriter",
-    "pandas.io.excel._odswriter._ODSWriter",
-    "pandas.io.excel._base.ExcelWriter",
-    "tensorflow.python.platform.resource_loader.get_path_to_datafile",
-    "tensorflow.python.training.saving.saveable_object_util.saveable_objects_for_op",
-    "tensorflow.python.keras.saving.saved_model.serialized_attributes.CommonEndpoints",
-    "tensorflow.python.training.saver.BaseSaverBuilder",
-    "tensorflow.python.summary.writer.writer.FileWriter",
-    "tensorflow.python.keras.engine.base_layer.Layer",
-    "urllib3.request.RequestMethods",
-    "keras.saving.saved_model.load_context.load_context",
-    "absl.third_party.unittest3_backport.result.TextTestResult",
-    "keras.optimizer_v1.Optimizer"
-    ]
-    moshu_file_final = "moshu_functions/{}_final.txt".format(Identify_name)
+    used_fun_result_output_final_re = "used_func_result/used_func_{}_final_re.txt".format(Identify_name)
+    prefunc_dir = "import-prefunc"
 
     import processUtil
-    processUtil.moshu_update(moshu_file_update, special_key, moshu_file_final)
+    processUtil.result_addlibray([], used_package_name, prefunc_dir, used_fun_result_output_final_re)
 
-    # generate the final useful function set (used_fun_result_output_final.txt)
-    global seedfun_list,re_FunRel,input_entry_point
 
-    
-    used_fun_result_output_update = "used_func_result/used_func_{}_update.txt".format(Identify_name)
-    processUtil.getDynamicContent(seedfun_list, input_package, re_FunRel, input_entry_point, moshu_file_final, used_fun_result_output_update)
-    used_fun_result_output_final = "used_func_result/used_func_{}_final.txt".format(Identify_name)
 
-    special_key_append = ["unittest.TestCase"]
-    special_key_append = []
-    processUtil.result_process(input_package, used_fun_result_output_update,used_fun_result_output_final, special_key_append)
+    temp = []
+    if os.path.exists(moshu_file_final):
+        for each_i in open(moshu_file_final):
+            each_i = each_i.strip('\n')
+            temp.append(each_i)
+    if os.path.exists(used_fun_result_output_final_re):
+        for each_i in open(used_fun_result_output_final_re):
+            each_i = each_i.strip('\n')
+            temp.append(each_i)  
 
-    
-    return used_package_name,moshu_file_final,used_fun_result_output_final
+
+    input_entry_point = input_entry_point.append(temp)
+
+    return used_package_name,moshu_file_final,input_entry_point
 
 
 def construct_graph():
@@ -168,7 +135,7 @@ def construct_graph():
         f.close()
 
     import staticAdd
-    staticAdd.add_info(input_package, output_file, input_entry_point, moshu_file, re_FunRel)
+    staticAdd.add_info(input_package, output_file, input_entry_point, moshu_file_final, re_FunRel)
 
     return re_FunRel
 
@@ -218,7 +185,7 @@ if __name__ == "__main__":
     # Step3: Special Function Recognition
     print("step3 start")
     Identify_name,moshu_file = magic_func()
-    used_package_name,moshu_file_final,used_fun_result_output_final = special_rule()
+    used_package_name,moshu_file_final,input_entry_point = special_rule()
     print("step3 end")
 
     # Step4: Optional Function Generation 
