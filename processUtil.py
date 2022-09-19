@@ -1,6 +1,7 @@
 import json
 import os
 
+
 def read_context(fileinput):
     with open(fileinput,'r') as load_f:
         load_dict = json.load(load_f)
@@ -241,10 +242,9 @@ def result_addlibray(dynamic_file_result_output_re, add_libray, prefunc_dir, use
 
     save_result = ['custom_funtemplate.rewrite_template']
 
-    if os.path.exists(tmp_file):   
-        for line in open(dynamic_file_result_output_re):
-            line = line.strip('\n')
-            save_result.append(line)
+    for line in open(dynamic_file_result_output_re):
+        line = line.strip('\n')
+        save_result.append(line)
 
     used_package = []
     for line in open(add_libray):
