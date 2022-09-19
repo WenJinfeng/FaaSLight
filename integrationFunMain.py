@@ -277,6 +277,3 @@ if __name__ == "__main__":
     used_fun_result_output_final_re,buits_list_file = func_rewrite()
     print("step7 end")
 
-
-    time_tmp = time.time()
-    print("All spending:"+str(time_tmp-time_start))
