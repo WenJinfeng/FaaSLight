@@ -271,20 +271,12 @@ if __name__ == "__main__":
     used_package_name,moshu_file_final,used_fun_result_output_final = special_rule()
     print("step6 end")
 
-    # # Step7: Final useful function generation
-    # print("step7 start")
-    # used_fun_result_output_final = final_rule()
-    # print("step7 end")
 
-    # Step8: Function-level rewriting
+    # Step7: Function-level rewriting
     print("step8 start")
     used_fun_result_output_final_re,buits_list_file = func_rewrite()
-    print("step8 end")
+    print("step7 end")
 
-    # # Step9: Import-level rewriting
-    # print("step9 start")
-    # import_rewrite()
-    # print("step9 end")
 
     time_tmp = time.time()
     print("All spending:"+str(time_tmp-time_start))
