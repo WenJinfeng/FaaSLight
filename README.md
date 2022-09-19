@@ -25,8 +25,6 @@ integrationFunMain.py is the approach overview of LambdaLite.
     Identify_name,moshu_file = magic_func()
     print("end")
 
-    time_tmp = time.time()
-
     # Constructing call graph 
     print("start")
     re_FunRel = construct_graph()
@@ -43,9 +41,9 @@ integrationFunMain.py is the approach overview of LambdaLite.
     print("end")
 
     # Final useful function generation
-    # print("start")
-    # used_fun_result_output_final = final_rule()
-    # print("end")
+    print("start")
+    used_fun_result_output_final = final_rule()
+    print("end")
 
     # Function-level rewriting
     print("start")
