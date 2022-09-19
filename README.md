@@ -23,7 +23,7 @@ integrationFunMain.py is the approach overview of LambdaLite.
     # Step3: Special Function Recognition
     print("step3 start")
     Identify_name,moshu_file = magic_func()
-    used_package_name,moshu_file_final,used_fun_result_output_final = special_rule()
+    used_package_name,moshu_file_final,input_entry_point = special_rule()
     print("step3 end")
 
     # Step4: Optional Function Generation 
