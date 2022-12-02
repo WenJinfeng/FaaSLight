@@ -60,3 +60,5 @@ The script to invoke the serverless function executed on Google Cloud Functions 
 
 In addition, we implement the JavaScript prototype of our approach in the directory JavaScript-prototype.
 
+The directory "Modified FaaS applications" is to provide the modifed and optimized FaaS applications
+
