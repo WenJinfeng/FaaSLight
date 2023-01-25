@@ -1,6 +1,8 @@
 # FaaSLight: Application-Level FaaS Optimization for Cold Start Latency in Serverless Computing
 
 
+This work has been accepted in **ACM Transactions on Software Engineering and Methodology (TOSEM)**.
+
 We aim to tackle this problem at the application level. Our guiding principle is to provide a vendor/platform-independent and developer-free technique that developers can easily adopt to optimize the cold start performance of FaaS applications on existing platforms. 
 
 ![image](https://user-images.githubusercontent.com/79156929/205443005-d5895a62-da5b-4fab-9a22-ac8291130223.png)
