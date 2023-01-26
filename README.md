@@ -5,7 +5,8 @@ This work has been accepted in **ACM Transactions on Software Engineering and Me
 
 We aim to tackle this problem at the application level. Our guiding principle is to provide a vendor/platform-independent and developer-free technique that developers can easily adopt to optimize the cold start performance of FaaS applications on existing platforms. 
 
-<img width="557" alt="image" src="https://user-images.githubusercontent.com/51308506/214478598-0e2b2160-f303-45ab-91b6-6eb823a4df20.png">
+
+<img width="636" alt="image" src="https://user-images.githubusercontent.com/51308506/214823513-996e33d2-5160-4770-8323-dfdbadf02efc.png">
 
 
 integrationFunMain.py is the approach overview of FaaSLight.
