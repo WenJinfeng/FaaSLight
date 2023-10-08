@@ -11,13 +11,13 @@ We aim to tackle this problem at the application level. Our guiding principle is
 
 integrationFunMain.py is the approach overview of FaaSLight.
 
-After the serverless function is processed by the above FaaSLight, it can be run on AWS Lambda again.
+After the serverless function is processed by the above FaaSLight, it can be run on AWS Lambda or Google Cloud Functions again.
 
 The script to invoke the serverless function executed on AWS Lambda and obtain the performance result is in InvokeScript/invokeFunctionScript.py.
 
-The script to invoke the serverless function executed on Google Cloud Functions and obtain the performance result is in InvokeScript/invokeCoogleFunction.py
+The script to invoke the serverless function executed on Google Cloud Functions and obtain the performance result is in InvokeScript/invokeGoogleFunction.py
 
 In addition, we implement the JavaScript prototype of our approach in the directory JavaScript-prototype.
 
-The directory "Modified FaaS applications" is to provide the modifed and optimized FaaS applications.
+The directory "Modified FaaS applications" is to provide the modifed FaaS applications (App1 - App22).
 
