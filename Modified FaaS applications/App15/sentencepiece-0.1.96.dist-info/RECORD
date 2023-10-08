@@ -1,0 +1,12 @@
+sentencepiece-0.1.96.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+sentencepiece-0.1.96.dist-info/METADATA,sha256=ZxD3EsBGzSE-WeI1TJfPUcT7eyVipOSixVj1GpVCly0,10095
+sentencepiece-0.1.96.dist-info/RECORD,,
+sentencepiece-0.1.96.dist-info/WHEEL,sha256=KMjJrr8K8tjgFeMhIng78AQus0AToivNAA9MjGcjFZU,150
+sentencepiece-0.1.96.dist-info/top_level.txt,sha256=VbEXOziRs3v4aR6sZkPKN33ZoWaO-YlpyzJHwYvVRSk,107
+sentencepiece/__init__.py,sha256=hQn-WhXjbP7vVRxAVEIotSFf8PofNVJej4OHIGU7NMs,18493
+sentencepiece/__pycache__/__init__.cpython-36.pyc,,
+sentencepiece/__pycache__/sentencepiece_model_pb2.cpython-36.pyc,,
+sentencepiece/__pycache__/sentencepiece_pb2.cpython-36.pyc,,
+sentencepiece/_sentencepiece.cpython-36m-x86_64-linux-gnu.so,sha256=WQ2IY9ZwHBNCXDOe06oV4RNgisUOJRg-xhT3AOU764Y,2710976
+sentencepiece/sentencepiece_model_pb2.py,sha256=XuwdZEp-Mjnv7tC6YsEvQrN41026I_PqpLhjiDIFMe8,38017
+sentencepiece/sentencepiece_pb2.py,sha256=rM66m59gmR3VpueIDYifpAx6QsBGmbR2bKxjq3OQYWY,8128
