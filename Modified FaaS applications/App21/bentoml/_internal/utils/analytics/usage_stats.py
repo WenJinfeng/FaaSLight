@@ -1,0 +1,236 @@
+from __future__ import annotations
+
+import os
+import typing as t
+import logging
+import secrets
+import threading
+import contextlib
+from typing import TYPE_CHECKING
+from datetime import datetime
+from datetime import timezone
+from functools import wraps
+from functools import lru_cache
+
+import attr
+import requests
+from simple_di import inject
+from simple_di import Provide
+
+from .schemas import EventMeta
+from .schemas import ServeInitEvent
+from .schemas import TrackingPayload
+from .schemas import CommonProperties
+from .schemas import ServeUpdateEvent
+from ...configuration.containers import BentoMLContainer
+
+if TYPE_CHECKING:
+    P = t.ParamSpec("P")
+    T = t.TypeVar("T")
+    AsyncFunc = t.Callable[P, t.Coroutine[t.Any, t.Any, t.Any]]
+
+    from bentoml import Service
+
+    from ...server.metrics.prometheus import PrometheusClient
+
+logger = logging.getLogger(__name__)
+
+BENTOML_DO_NOT_TRACK = "BENTOML_DO_NOT_TRACK"
+USAGE_TRACKING_URL = "https://t.bentoml.com"
+SERVE_USAGE_TRACKING_INTERVAL_SECONDS = int(12 * 60 * 60)  # every 12 hours
+USAGE_REQUEST_TIMEOUT_SECONDS = 1
+
+
+@lru_cache(maxsize=1)
+def do_not_track() -> bool:  # pragma: no cover
+    # Returns True if and only if the environment variable is defined and has value True.
+    # The function is cached for better performance.
+    return os.environ.get(BENTOML_DO_NOT_TRACK, str(False)).lower() == "true"
+
+
+@lru_cache(maxsize=1)
+def _usage_event_debugging() -> bool:
+    # For BentoML developers only - debug and print event payload if turned on
+    return os.environ.get("__BENTOML_DEBUG_USAGE", str(False)).lower() == "true"
+
+
+def silent(func: t.Callable[P, T]) -> t.Callable[P, T]:  # pragma: no cover
+    # Silent errors when tracking
+    @wraps(func)
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> t.Any:
+        try:
+            return func(*args, **kwargs)
+        except Exception as err:  # pylint: disable=broad-except
+            if _usage_event_debugging():
+                logger.info(f"Tracking Error: {err}")
+            else:
+                logger.debug(f"Tracking Error: {err}")
+
+    return wrapper
+
+
+@attr.define
+class ServeInfo:
+    serve_id: str
+    serve_started_timestamp: datetime
+
+
+def get_serve_info() -> ServeInfo:  # pragma: no cover
+    # Returns a safe token for serve as well as timestamp of creating this token
+    return ServeInfo(
+        serve_id=secrets.token_urlsafe(32),
+        serve_started_timestamp=datetime.now(timezone.utc),
+    )
+
+
+@inject
+def get_payload(
+    event_properties: EventMeta,
+    session_id: str = Provide[BentoMLContainer.session_id],
+) -> t.Dict[str, t.Any]:
+    return TrackingPayload(
+        session_id=session_id,
+        common_properties=CommonProperties(),
+        event_properties=event_properties,
+        event_type=event_properties.event_name,
+    ).to_dict()
+
+
+@silent
+def track(event_properties: EventMeta):
+    if do_not_track():
+        return
+    payload = get_payload(event_properties=event_properties)
+
+    if _usage_event_debugging():
+        # For internal debugging purpose
+        logger.info("Tracking Payload: %s", payload)
+        return
+
+    requests.post(
+        USAGE_TRACKING_URL, json=payload, timeout=USAGE_REQUEST_TIMEOUT_SECONDS
+    )
+
+
+@inject
+def _track_serve_init(
+    svc: Service,
+    production: bool,
+    serve_info: ServeInfo = Provide[BentoMLContainer.serve_info],
+):
+    if svc.bento is not None:
+        bento = svc.bento
+        event_properties = ServeInitEvent(
+            serve_id=serve_info.serve_id,
+            serve_from_bento=True,
+            production=production,
+            bento_creation_timestamp=bento.info.creation_time,
+            num_of_models=len(bento.info.models),
+            num_of_runners=len(svc.runners),
+            num_of_apis=len(bento.info.apis),
+            model_types=[m.module for m in bento.info.models],
+            runnable_types=[r.runnable_type for r in bento.info.runners],
+            api_input_types=[api.input_type for api in bento.info.apis],
+            api_output_types=[api.output_type for api in bento.info.apis],
+        )
+    else:
+        event_properties = ServeInitEvent(
+            serve_id=serve_info.serve_id,
+            serve_from_bento=False,
+            production=production,
+            bento_creation_timestamp=None,
+            num_of_models=len(
+                set(
+                    svc.models
+                    + [model for runner in svc.runners for model in runner.models]
+                )
+            ),
+            num_of_runners=len(svc.runners),
+            num_of_apis=len(svc.apis.keys()),
+            runnable_types=[r.runnable_class.__name__ for r in svc.runners],
+            api_input_types=[api.input.__class__.__name__ for api in svc.apis.values()],
+            api_output_types=[
+                api.output.__class__.__name__ for api in svc.apis.values()
+            ],
+        )
+
+    track(event_properties)
+
+
+EXCLUDE_PATHS = {"/docs.json", "/livez", "/healthz", "/readyz"}
+
+
+def get_metrics_report(
+    metrics_client: PrometheusClient,
+) -> list[dict[str, str | float]]:
+    metrics_text = metrics_client.generate_latest().decode("utf-8")
+    if not metrics_text:
+        return []
+
+    from prometheus_client.parser import (
+        text_string_to_metric_families,  # type: ignore (unfinished prometheus types)
+    )
+
+    for metric in text_string_to_metric_families(metrics_text):
+        # Searching for the metric BENTOML_{service_name}_request of type Counter
+        if (
+            metric.type == "counter"
+            and metric.name.startswith("BENTOML_")
+            and metric.name.endswith("_request")
+        ):
+            return [
+                {**sample.labels, "value": sample.value}
+                for sample in metric.samples
+                if "endpoint" in sample.labels
+                # exclude common infra paths
+                and sample.labels["endpoint"] not in EXCLUDE_PATHS
+                # exclude static_content prefix
+                and not sample.labels["endpoint"].startswith("/static_content/")
+            ]
+
+    return []
+
+
+@inject
+@contextlib.contextmanager
+def track_serve(
+    svc: Service,
+    production: bool,
+    metrics_client: PrometheusClient = Provide[BentoMLContainer.metrics_client],
+    serve_info: ServeInfo = Provide[BentoMLContainer.serve_info],
+) -> t.Generator[None, None, None]:
+    if do_not_track():
+        yield
+        return
+
+    _track_serve_init(svc, production)
+
+    if _usage_event_debugging():
+        tracking_interval = 5
+    else:
+        tracking_interval = SERVE_USAGE_TRACKING_INTERVAL_SECONDS
+
+    stop_event = threading.Event()
+
+    @silent
+    def loop() -> t.NoReturn:  # type: ignore
+        last_tracked_timestamp: datetime = serve_info.serve_started_timestamp
+        while not stop_event.wait(tracking_interval):  # pragma: no cover
+            now = datetime.now(timezone.utc)
+            event_properties = ServeUpdateEvent(
+                serve_id=serve_info.serve_id,
+                production=production,
+                triggered_at=now,
+                duration_in_seconds=int((now - last_tracked_timestamp).total_seconds()),
+                metrics=get_metrics_report(metrics_client),
+            )
+            last_tracked_timestamp = now
+            track(event_properties)
+
+    tracking_thread = threading.Thread(target=loop, daemon=True)
+    try:
+        tracking_thread.start()
+        yield
+    finally:
+        stop_event.set()
+        tracking_thread.join()

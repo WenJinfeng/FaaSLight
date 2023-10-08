@@ -1,0 +1,81 @@
+{# BENTOML INTERNAL #}
+{# users can use these values #}
+{% import '_macros.j2' as common %}
+{% set bento__entrypoint = bento__entrypoint | default(expands_bento_path("env", "docker", "entrypoint.sh", bento_path=bento__path)) %}
+# syntax = docker/dockerfile:1.4-labs
+#
+# ===========================================
+#
+# THIS IS A GENERATED DOCKERFILE. DO NOT EDIT
+#
+# ===========================================
+
+# Block SETUP_BENTO_BASE_IMAGE
+{% block SETUP_BENTO_BASE_IMAGE %}
+FROM {{ __base_image__ }}
+
+ENV LANG=C.UTF-8
+
+ENV LC_ALL=C.UTF-8
+
+ENV PYTHONIOENCODING=UTF-8
+
+ENV PYTHONUNBUFFERED=1
+
+{% endblock %}
+
+# Block SETUP_BENTO_USER
+{% block SETUP_BENTO_USER %}
+ARG BENTO_USER={{ bento__user }}
+ARG BENTO_USER_UID={{ bento__uid_gid }}
+ARG BENTO_USER_GID={{ bento__uid_gid }}
+RUN groupadd -g $BENTO_USER_GID -o $BENTO_USER && useradd -m -u $BENTO_USER_UID -g $BENTO_USER_GID -o -r $BENTO_USER
+{% endblock %}
+{% block SETUP_BENTO_ENVARS %}
+{% if __options__env is not none %}
+{% for key, value in __options__env.items() -%}
+
+ENV {{ key }}={{ value }}
+{% endfor -%}
+{% endif -%}
+
+ARG BENTO_PATH={{ bento__path }}
+ENV BENTO_PATH=$BENTO_PATH
+ENV BENTOML_HOME={{ bento__home }}
+
+RUN mkdir $BENTO_PATH && chown {{ bento__user }}:{{ bento__user }} $BENTO_PATH -R
+WORKDIR $BENTO_PATH
+
+# init related components
+COPY --chown={{ bento__user }}:{{ bento__user }} . ./
+
+{% endblock %}
+
+# Block SETUP_BENTO_COMPONENTS
+{% block SETUP_BENTO_COMPONENTS %}
+
+{% set __install_python_scripts__ = expands_bento_path("env", "python", "install.sh", bento_path=bento__path) %}
+{% set __pip_cache__ = common.mount_cache("/root/.cache/pip") %}
+# install python packages with install.sh
+RUN {{ __pip_cache__ }} bash -euxo pipefail {{ __install_python_scripts__ }}
+
+{% if __options__setup_script is not none %}
+{% set __setup_script__ = expands_bento_path("env", "docker", "setup_script", bento_path=bento__path) %}
+RUN chmod +x {{ __setup_script__ }}
+RUN {{ __setup_script__ }}
+{% endif %}
+
+{% endblock %}
+
+# Block SETUP_BENTO_ENTRYPOINT
+{% block SETUP_BENTO_ENTRYPOINT %}
+# Default port for BentoServer
+EXPOSE 3000
+
+RUN chmod +x {{ bento__entrypoint }}
+
+USER bentoml
+
+ENTRYPOINT [ "{{ bento__entrypoint }}" ]
+
+{% endblock %}

@@ -1,0 +1,53 @@
+api_server:
+  port: 3000
+  host: 0.0.0.0
+  backlog: 2048
+  workers: 1
+  timeout: 60
+  max_request_size: 20971520
+  metrics:
+    enabled: True
+    namespace: BENTOML
+  logging:
+    access:
+      enabled: True
+      request_content_length: True
+      request_content_type: True
+      response_content_length: True
+      response_content_type: True
+  cors:
+    enabled: False
+    access_control_allow_origin: Null
+    access_control_allow_credentials: Null
+    access_control_allow_methods: Null
+    access_control_allow_headers: Null
+    access_control_max_age: Null
+    access_control_expose_headers: Null
+
+runners:
+  batching:
+    enabled: True
+    max_batch_size: 100
+    max_latency_ms: 10000
+  resources: ~
+  logging:
+    access:
+      enabled: True
+      request_content_length: True
+      request_content_type: True
+      response_content_length: True
+      response_content_type: True
+  timeout: 300
+
+tracing:
+  type: zipkin
+  sample_rate: Null
+  excluded_urls: Null
+  zipkin:
+    url: Null
+  jaeger:
+    address: Null
+    port: Null
+  otlp:
+    protocol: Null
+    url: Null
