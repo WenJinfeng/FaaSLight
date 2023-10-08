@@ -1,0 +1,22 @@
+{
+  "name": "show-me-a-dog",
+  "version": "1.0.0",
+  "description": "Show me a dog",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "serverless offline"
+  },
+  "author": {
+    "name": "Matt Holland",
+    "url": "http://mattholland.info/"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "handlebars": "^4.7.7",
+    "isomorphic-unfetch": "^2.1.1",
+    "serverless": "^1.41.1",
+    "serverless-offline": "^4.10.6",
+    "uglifycss": "0.0.27"
+  }
+}

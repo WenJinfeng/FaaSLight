@@ -1,0 +1,36 @@
+body {
+  background-color: darkgrey;
+  color: white;
+  font-size: 24px;
+  font-family: Helvetica
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.breed-list {
+  list-style-type: none;
+}
+
+.breed-list-item {
+  display: inline;
+  padding: 10px;
+}
+
+.about {
+  font-size: 12px;
+}
+
+.links {
+  padding: 10px;
+}
+
+.link {
+  display: block;
+}
