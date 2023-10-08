@@ -1,5 +1,5 @@
 
-This directory is to provide the modifed and optimized FaaS applications. Due to the file size limit of GitHub, you can see link: https://drive.google.com/drive/folders/1RvswL4Emzs4Btyqgk7GW2WhYO2TH7hWF?usp=share_link.
+This directory is to provide the modifed and optimized FaaS applications. 
 
 We have converted the FaaS applications for AWS to the format required by Google Cloud Functions and converted the applications for Google Cloud Functions to the format required by AWS. Then we have applied our approach to the converted applications to further demonstrate its generalization.
 
