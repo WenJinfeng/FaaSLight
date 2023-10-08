@@ -1,0 +1,40 @@
+
+    <!-- Accordion partial -->
+    <script id="accordion.partial" type="text/x-handlebars-template">
+            <div class="accordion">
+                <h4 class="list-group-item-heading accordion-heading">
+                    {{#if title_partial}}
+                        {{> (lookup . 'title_partial') item = this}}
+                    {{else}}
+                        {{#if title}}
+                            {{title}}
+                        {{/if}}
+                    {{/if}}
+                    {{#if items.length}}
+                        <a class="accordion-toggle" data-toggle="collapse" href="#{{escape_dots accordion_id}}">
+                            <span class="badge pull-right btn-info">{{items.length}}</span>
+                        </a>
+                    {{else}}
+                        <span class="badge pull-right">0</span>
+                    {{/if}}
+                </h4>
+                <div id="{{accordion_id}}" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                        <ul class="no-bullet">
+                            {{#each items}}
+                                <li>
+                                    {{#if ../item_partial}}
+                                        {{> (lookup ../.. 'item_partial') region = ../../region vpc = ../../vpc item = this}}
+                                    {{else}}
+                                        {{this}}
+                                    {{/if}}
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </script>
+    <script>
+        Handlebars.registerPartial("accordion", $("#accordion\\.partial").html());
+    </script>

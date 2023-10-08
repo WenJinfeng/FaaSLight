@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: iampoliciesgonewild
+Version: 1.0.6.2
+Summary: AWS IAM Policy Expander Minimizer
+Home-page: https://github.com/monkeysecurity/iampoliciesgonewild
+Author: Patrick Kelley
+Author-email: pkelley@netflix.com
+License: UNKNOWN
+Keywords: iam,policy,wildcard
+Platform: UNKNOWN
+License-File: LICENSE
+
+UNKNOWN
+

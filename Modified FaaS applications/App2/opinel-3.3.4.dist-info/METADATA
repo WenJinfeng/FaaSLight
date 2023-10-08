@@ -1,0 +1,68 @@
+Metadata-Version: 2.1
+Name: opinel
+Version: 3.3.4
+Summary: Code shared between Scout2 and AWS-recipes.
+Home-page: https://github.com/nccgroup/opinel
+Author: l01cd3v
+Author-email: l01cd3v@gmail.com
+License: GNU General Public License v2 (GPLv2)
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: Natural Language :: English
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+License-File: LICENSE
+Requires-Dist: boto3 (>=1.4.4)
+Requires-Dist: requests (<3.0.0,>=2.4.0)
+Requires-Dist: netaddr (>=0.7.11)
+Requires-Dist: iampoliciesgonewild (>=1.0.6.2)
+Requires-Dist: pyyaml (>=3.12)
+
+######
+opinel
+######
+
+.. image:: https://travis-ci.org/nccgroup/opinel.svg?branch=master
+        :target: https://travis-ci.org/nccgroup/opinel
+.. image:: https://coveralls.io/repos/github/nccgroup/opinel/badge.svg?branch=master
+        :target: https://coveralls.io/github/nccgroup/opinel?branch=master      
+.. image:: https://badge.fury.io/py/opinel.svg
+        :target: https://badge.fury.io/py/opinel
+        :align: right
+
+************
+Introduction
+************
+
+opinel is the Python package used by `Scout2`_ and `AWS-Recipes`_.
+
+************
+Installation
+************
+
+Install via `pip`_:
+
+::
+
+    $ pip install opinel
+
+Install from source:
+
+::
+
+    $ git clone https://github.com/nccgroup/opinel
+    $ cd opinel
+    $ python setup.py install
+
+.. _Scout2: https://github.com/nccgroup/Scout2
+.. _AWS-Recipes: https://github.com/nccgroup/AWS-Recipes
+.. _pip: https://pip.pypa.io/en/stable/index.html
+
+
