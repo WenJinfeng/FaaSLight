@@ -1,0 +1,9 @@
+{
+    "name": "image-processing-rewrite",
+    "description": "Serverless Image Processing",
+    "main": "handler.js",
+    "dependencies": {
+      "sharp": "*",
+      "aws-sdk":"*"
+    }
+  }

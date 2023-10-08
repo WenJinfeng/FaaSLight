@@ -1,0 +1,14 @@
+service: Fun20fromGoogle
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-west-1
+  memorySize: 128
+  timeout: 120
+
+
+functions:
+  matmulFun:
+    handler: main.getUserDetails
+    
