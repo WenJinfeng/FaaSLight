@@ -21,3 +21,26 @@ In addition, we implement the JavaScript prototype of our approach in the direct
 
 The directory "Modified FaaS applications" is to provide the modifed FaaS applications (App1 - App22).
 
+### Install Python 3.9 along with pip and set it as default python3.9
+```
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.9
+sudo apt install python3.9-venv python3.9-distutils
+curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3.9
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
+sudo update-alternatives --config python3
+python3 --version
+```
+
+### Install Dependencies
+```
+pip install wrapt lazy-object-proxy
+```
+
+### Run the program along with application directory that you wanna analyze
+```
+python3 integrationFunMain.py application_directory
+```
