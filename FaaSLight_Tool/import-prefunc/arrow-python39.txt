@@ -1,0 +1,4 @@
+arrow.arrow.Arrow.__init__
+arrow.arrow.Arrow.fromdatetime
+arrow.factory.ArrowFactory.__init__
+arrow.locales.Locale.__init_subclass__

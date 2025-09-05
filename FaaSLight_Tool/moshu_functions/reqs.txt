@@ -1,0 +1,2 @@
+six._GeneratorWrapper.__iter__
+six.X.__len__
